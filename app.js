@@ -263,17 +263,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTouch(evt) {
-        const firstTouch = getTouches(evt)[0];
-        x1 = firstTouch.clientX;
-        y1 = firstTouch.cliebtY;
+        // const firstTouch = getTouches(evt)[0];
+        // x1 = firstTouch.clientX;
+        // y1 = firstTouch.cliebtY;
+        x1 = evt.originalEvent.touches[0].clientX;
+        y1 = evt.originalEvent.touches[0].clientY;
+        // x1 = evt.offsetX;
+        // y1 = evt.offsetY;
     };
 
     function handleMove(evt) {
         if(!x1 || !y1)
             return;
 
-        var x2 = evt.touches[0].clientX;                                    
-        var y2 = evt.touches[0].clientY;
+        // var x2 = evt.touches[0].clientX;                                    
+        // var y2 = evt.touches[0].clientY;
+
+        var x2 = evt.originalEvent.touches[0].clientX;                                    
+        var y2 = evt.originalEvent.touches[0].clientY;
 
         var xDiff = x1 - x2;
         var yDiff = y1 - y2;
@@ -286,9 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else {
             if(yDiff > 0)
-                keyUp();
-            else
                 keyDown();
+            else
+                keyUp();
         }
 
         x1 = null;
