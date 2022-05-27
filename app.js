@@ -252,4 +252,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnRetry.addEventListener("click", PlayAgain);
 
+    document.addEventListener('touchstart', handleTouch, false);
+    document.addEventListener('touchmove', handleMove, false);
+
+    var x1 = null;
+    var y1 = null;
+
+    function getTouches(evt) {
+        return evt.touches || evt.originalEvent.touches;
+    }
+
+    function handleTouch(evt) {
+        const firstTouch = getTouches(evt)[0];
+        x1 = firstTouch.clientX;
+        y1 = firstTouch.cliebtY;
+    };
+
+    function handleMove(evt) {
+        if(!x1 || !y1)
+            return;
+
+        var x2 = evt.touches[0].clientX;                                    
+        var y2 = evt.touches[0].clientY;
+
+        var xDiff = x1 - x2;
+        var yDiff = y1 - y2;
+
+        if(Math.abs(xDiff) > Math.abs(yDiff)) {
+            if(xDiff > 0)
+                keyRight();
+            else
+                keyLeft();
+        }
+        else {
+            if(yDiff > 0)
+                keyUp();
+            else
+                keyDown();
+        }
+
+        x1 = null;
+        y1 = null;
+    };
 })
