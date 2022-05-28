@@ -252,53 +252,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnRetry.addEventListener("click", PlayAgain);
 
-    document.addEventListener('touchstart', handleTouch, false);
-    document.addEventListener('touchmove', handleMove, false);
+    let touchstartX = 0
+    let touchendX = 0
+    let touchstartY = 0
+    let touchendY = 0
 
-    var x1 = null;
-    var y1 = null;
-
-    function getTouches(evt) {
-        return evt.touches || evt.originalEvent.touches;
-    }
-
-    function handleTouch(evt) {
-        // const firstTouch = getTouches(evt)[0];
-        // x1 = firstTouch.clientX;
-        // y1 = firstTouch.cliebtY;
-        x1 = evt.originalEvent.touches[0].clientX;
-        y1 = evt.originalEvent.touches[0].clientY;
-        // x1 = evt.offsetX;
-        // y1 = evt.offsetY;
-    };
-
-    function handleMove(evt) {
-        if(!x1 || !y1)
-            return;
-
-        // var x2 = evt.touches[0].clientX;                                    
-        // var y2 = evt.touches[0].clientY;
-
-        var x2 = evt.originalEvent.touches[0].clientX;                                    
-        var y2 = evt.originalEvent.touches[0].clientY;
-
-        var xDiff = x1 - x2;
-        var yDiff = y1 - y2;
-
+    function handleTouch() {
+        let xDiff = touchendX - touchstartX;
+        let yDiff = touchendY - touchstartY;
+        
         if(Math.abs(xDiff) > Math.abs(yDiff)) {
-            if(xDiff > 0)
-                keyRight();
-            else
+            if(xDiff < 0) 
                 keyLeft();
+            else 
+                keyRight();
         }
         else {
-            if(yDiff > 0)
-                keyDown();
-            else
+            if(yDiff < 0) 
                 keyUp();
+            else if(yDiff > 0)
+                keyDown();
         }
+    }
 
-        x1 = null;
-        y1 = null;
-    };
+    document.addEventListener('touchstart', e => {
+        e.preventDefault()
+        touchstartX = e.changedTouches[0].screenX
+        touchstartY = e.changedTouches[0].screenY
+    })
+
+    document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX
+        touchendY = e.changedTouches[0].screenY
+        handleTouch()
+    })
 })
