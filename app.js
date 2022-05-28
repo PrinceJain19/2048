@@ -282,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     document.addEventListener('touchend', e => {
+        e.preventDefault()
         touchendX = e.changedTouches[0].screenX
         touchendY = e.changedTouches[0].screenY
         handleTouch()
