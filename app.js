@@ -261,17 +261,19 @@ document.addEventListener('DOMContentLoaded', () => {
         let xDiff = touchendX - touchstartX;
         let yDiff = touchendY - touchstartY;
         
-        if(Math.abs(xDiff) > Math.abs(yDiff)) {
-            if(xDiff < 0) 
-                keyLeft();
-            else 
-                keyRight();
-        }
-        else {
-            if(yDiff < 0) 
-                keyUp();
-            else if(yDiff > 0)
-                keyDown();
+        if(Math.abs(xDiff) > 15 || Math.abs(yDiff) > 15) {
+            if(Math.abs(xDiff) > Math.abs(yDiff)) {
+                if(xDiff < 0) 
+                    keyLeft();
+                else 
+                    keyRight();
+            }
+            else {
+                if(yDiff < 0) 
+                    keyUp();
+                else if(yDiff > 0)
+                    keyDown();
+            }
         }
     }
 
@@ -279,10 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault()
         touchstartX = e.changedTouches[0].screenX
         touchstartY = e.changedTouches[0].screenY
-    })
+    }, { passive: false });
 
     document.addEventListener('touchend', e => {
-        e.preventDefault()
         touchendX = e.changedTouches[0].screenX
         touchendY = e.changedTouches[0].screenY
         handleTouch()
